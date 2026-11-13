@@ -33,17 +33,18 @@ header h1 span { color: var(--ac-light); }
 #dropzone p { margin: 0; font-size: 12px; color: var(--mu); }
 
 /* VISUALIZAÇÃO DA IMAGEM */
-.img-preview { max-width: 100%; max-height: 50vh; border-radius: 8px; box-shadow: 0 12px 32px rgba(0,0,0,0.6); object-fit: contain; background: repeating-conic-gradient(#232329 0% 25%, transparent 0% 50%) 50% / 20px 20px; }
+.img-preview { max-width: 100%; max-height: 55vh; border-radius: 8px; box-shadow: 0 12px 32px rgba(0,0,0,0.6); object-fit: contain; background: repeating-conic-gradient(#232329 0% 25%, transparent 0% 50%) 50% / 20px 20px; }
 
 /* GAVETA INFERIOR (PAINEL) */
-#panel { background: var(--sf); border-top: 1px solid var(--bd); border-radius: 16px 16px 0 0; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; box-shadow: 0 -8px 30px rgba(0,0,0,0.5); z-index: 10; }
+#panel { background: var(--sf); border-top: 1px solid var(--bd); border-radius: 16px 16px 0 0; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; box-shadow: 0 -8px 30px rgba(0,0,0,0.5); z-index: 10; overflow-y: auto; max-height: 50vh; }
 
 /* COMPONENTES DE UI */
-.chk-row { display: flex; align-items: center; gap: 12px; background: var(--in); border: 1px solid var(--bd); padding: 12px 14px; border-radius: 10px; cursor: pointer; user-select: none; }
-.chk-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ac); margin: 0; flex-shrink: 0; cursor: pointer; }
-.chk-texts { display: flex; flex-direction: column; gap: 2px; }
-.chk-title { font-size: 13px; font-weight: 600; color: var(--tx); }
-.chk-desc { font-size: 11px; color: var(--mu); line-height: 1.3; }
+.c { background: var(--in); border: 1px solid var(--bd); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.l { font-size: 11px; font-weight: 600; color: var(--mu); display: flex; justify-content: space-between; align-items: center; }
+
+.chk-row { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+.chk-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--ac); margin: 0; flex-shrink: 0; cursor: pointer; }
+.chk-title { font-size: 13px; font-weight: 500; color: var(--tx); }
 
 .b { background: var(--el); border: 1px solid var(--bd); color: var(--tx); padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: 0.15s; }
 .b:hover, .b:active { background: var(--ac-soft); border-color: var(--ac-light); color: var(--ac-light); }
@@ -51,9 +52,17 @@ header h1 span { color: var(--ac-light); }
 .p { background: linear-gradient(135deg, var(--ac), var(--ac-dark)); color: #fff; border: 0; padding: 12px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(6,182,212,0.3); transition: transform 0.1s; }
 .p:active { transform: scale(0.98); }
 
-.seg { display: flex; gap: 4px; background: var(--in); border: 1px solid var(--bd); padding: 4px; border-radius: 10px; width: fit-content; margin: 0 auto 16px; }
-.seg button { flex: 1; background: transparent; border: 0; color: var(--mu); padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; }
+.seg { display: flex; gap: 4px; background: var(--in); border: 1px solid var(--bd); padding: 4px; border-radius: 8px; width: 100%; }
+.seg button { flex: 1; background: transparent; border: 0; color: var(--mu); padding: 8px 4px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.15s; white-space: nowrap; }
 .seg button.on { background: var(--el); color: var(--ac-light); box-shadow: 0 0 0 1px rgba(6,182,212,0.3); }
+
+input[type=color] { width: 100%; height: 34px; border: 1px solid var(--bd); border-radius: 8px; background: var(--el); padding: 2px; cursor: pointer; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* SWATCHES */
+.swatches { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.sw-btn { width: 24px; height: 24px; border-radius: 6px; border: 1.5px solid var(--bd); cursor: pointer; transition: transform 0.12s; }
+.sw-btn:hover { border-color: var(--ac-light); transform: scale(1.1); }
 
 /* UTILITÁRIOS */
 .hidden { display: none !important; }
@@ -67,13 +76,13 @@ header h1 span { color: var(--ac-light); }
   body { flex-direction: row; }
   header { position: absolute; top: 0; left: 0; width: 100%; z-index: 20; background: transparent; border: 0; }
   #stage { padding-top: 60px; }
-  #panel { width: 380px; height: 100%; border-top: 0; border-left: 1px solid var(--bd); border-radius: 0; justify-content: center; padding: 24px; }
+  #panel { width: 400px; height: 100%; border-top: 0; border-left: 1px solid var(--bd); border-radius: 0; padding: 24px; max-height: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- MÓDULO DA INTELIGÊNCIA ARTIFICIAL (BAIXA EM SEGUNDO PLANO) -->
+<!-- MÓDULO DA INTELIGÊNCIA ARTIFICIAL -->
 <script type="module">
   import imglyRemoveBackground from "https://esm.sh/@imgly/background-removal@1.4.3";
   window.imglyRemoveBackground = imglyRemoveBackground;
@@ -87,7 +96,6 @@ header h1 span { color: var(--ac-light); }
 </header>
 
 <div id="stage">
-  
   <!-- TELA 1: UPLOAD -->
   <div id="view-upload" style="width:100%; display:flex; justify-content:center;">
     <div id="dropzone">
@@ -110,35 +118,89 @@ header h1 span { color: var(--ac-light); }
 
   <!-- TELA 3: RESULTADO -->
   <div id="view-result" class="hidden" style="width:100%; text-align:center; display:flex; flex-direction:column; align-items:center;">
-    <div class="seg" id="resultTabs">
-      <button data-tab="result" class="on">Sem Fundo</button>
+    <div class="seg" id="resultTabs" style="width: auto; margin-bottom: 12px;">
+      <button data-tab="result" class="on">Resultado</button>
       <button data-tab="original">Original</button>
     </div>
     <img id="resultImage" class="img-preview" src="">
     <img id="originalImage" class="img-preview hidden" src="">
   </div>
-
 </div>
 
 <!-- GAVETA LATERAL / INFERIOR DE CONTROLES -->
 <div id="panel">
-  <label class="chk-row">
-    <input type="checkbox" id="fadeCheckbox" checked>
-    <div class="chk-texts">
-      <span class="chk-title">Adicionar efeito esfumaçado (fade)</span>
-      <span class="chk-desc">Aplica um degradê transparente na base da imagem (ideal para rodapés de flyers)</span>
-    </div>
-  </label>
-
-  <button class="p" id="downloadBtn" style="width:100%; display:none;">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Baixar PNG
-  </button>
   
-  <button class="b" id="newImgBtn" style="width:100%; display:none;">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-    Remover outro fundo
-  </button>
+  <div id="editorControls" class="hidden" style="display:flex; flex-direction:column; gap:12px;">
+    
+    <!-- CONTROLES DE FUNDO -->
+    <div class="c">
+      <div class="l">Fundo da Imagem</div>
+      <div class="seg" id="bgTypeSeg">
+        <button data-v="transp" class="on">Transparente</button>
+        <button data-v="solid">Cor Sólida</button>
+        <button data-v="grad">Degradê</button>
+      </div>
+      
+      <div id="bgControlsBox" class="hidden">
+        <div class="g2">
+          <div>
+            <div class="l" style="margin-bottom:4px">Cor 1</div>
+            <input type="color" id="bgColor1" value="#06b6d4">
+          </div>
+          <div id="bgCol2Wrapper" class="hidden">
+            <div class="l" style="margin-bottom:4px">Cor 2</div>
+            <input type="color" id="bgColor2" value="#0284c7">
+          </div>
+        </div>
+        <div class="l" style="margin-top:8px">Cores Rápidas</div>
+        <div class="swatches" id="bgSwatches">
+          <!-- Gerado via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLES DE EFEITO -->
+    <div class="c">
+      <label class="chk-row">
+        <input type="checkbox" id="fadeCheckbox" checked>
+        <span class="chk-title">Efeito esfumaçado na base (Fade)</span>
+      </label>
+    </div>
+
+    <!-- NOVO: CONTROLES DE NITIDEZ -->
+    <div class="c">
+      <div class="l">Nitidez (Realce de Detalhes)</div>
+      <div class="seg" id="sharpnessSeg">
+        <button data-v="0" class="on">Desligado</button>
+        <button data-v="0.15">Leve</button>
+        <button data-v="0.35">Forte</button>
+      </div>
+    </div>
+
+    <!-- CONTROLES DE UPSCALING E EXPORTAÇÃO -->
+    <div class="c">
+      <div class="l">Qualidade de Exportação (Upscale)</div>
+      <div class="seg" id="upscaleSeg">
+        <button data-v="1" class="on">1x (Padrão)</button>
+        <button data-v="2">2x (HD)</button>
+        <button data-v="3">3x (Ultra)</button>
+      </div>
+      
+      <button class="p" id="downloadBtn" style="width:100%; margin-top:4px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar Imagem
+      </button>
+      <button class="b" id="newImgBtn" style="width:100%;">
+        Remover outro fundo
+      </button>
+    </div>
+
+  </div>
+
+  <div id="initialPlaceholder" style="text-align:center; padding: 20px; color: var(--mu); font-size: 13px;">
+    Carregue uma imagem para ver as opções de edição.
+  </div>
+
 </div>
 
 <!-- LÓGICA DO APLICATIVO -->
@@ -154,13 +216,85 @@ const progressFill = document.getElementById('progressFill');
 const progressTitle = document.getElementById('progressTitle');
 const progressDesc = document.getElementById('progressDesc');
 const resultTabs = document.getElementById('resultTabs');
+
+const editorControls = document.getElementById('editorControls');
+const initialPlaceholder = document.getElementById('initialPlaceholder');
 const fadeCheckbox = document.getElementById('fadeCheckbox');
 const downloadBtn = document.getElementById('downloadBtn');
 const newImgBtn = document.getElementById('newImgBtn');
+const sharpnessSeg = document.getElementById('sharpnessSeg');
+
+// Controles de Fundo
+const bgTypeSeg = document.getElementById('bgTypeSeg');
+const bgControlsBox = document.getElementById('bgControlsBox');
+const bgColor1 = document.getElementById('bgColor1');
+const bgColor2 = document.getElementById('bgColor2');
+const bgCol2Wrapper = document.getElementById('bgCol2Wrapper');
+const bgSwatches = document.getElementById('bgSwatches');
+const upscaleSeg = document.getElementById('upscaleSeg');
+
+const PRESET_COLORS = ['#ffffff', '#000000', '#0f172a', '#083344', '#052e16', '#3b0764', '#7f1d1d', '#06b6d4', '#fbbf24'];
 
 let originalObjectURL = null;
-let resultObjectURL = null;
-let finalBlob = null;
+let currentObjectURL = null;
+let rawCutoutImage = new Image(); // Guarda o recorte puro feito pela IA
+let finalDataUrl = null;
+
+// Configurações atuais
+let config = {
+  bgType: 'transp', // transp, solid, grad
+  bgC1: '#06b6d4',
+  bgC2: '#0284c7',
+  fade: true,
+  upscale: 1,
+  sharpness: 0
+};
+
+// Renderizar Swatches
+bgSwatches.innerHTML = PRESET_COLORS.map(c => `<button type="button" class="sw-btn" data-c="${c}" style="background:${c}"></button>`).join('');
+bgSwatches.addEventListener('click', (e) => {
+  const btn = e.target.closest('.sw-btn');
+  if (btn) {
+    bgColor1.value = btn.dataset.c;
+    config.bgC1 = btn.dataset.c;
+    renderCanvas();
+  }
+});
+
+// Atualizar Configurações via UI
+function setupSegControl(el, key, callback) {
+  el.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    el.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    config[key] = btn.dataset.v === 'true' ? true : btn.dataset.v === 'false' ? false : (isNaN(btn.dataset.v) ? btn.dataset.v : parseFloat(btn.dataset.v));
+    if (callback) callback();
+    renderCanvas();
+  });
+}
+
+setupSegControl(bgTypeSeg, 'bgType', () => {
+  if (config.bgType === 'transp') {
+    bgControlsBox.classList.add('hidden');
+  } else {
+    bgControlsBox.classList.remove('hidden');
+    if (config.bgType === 'grad') bgCol2Wrapper.classList.remove('hidden');
+    else bgCol2Wrapper.classList.add('hidden');
+  }
+});
+
+setupSegControl(upscaleSeg, 'upscale');
+setupSegControl(sharpnessSeg, 'sharpness');
+
+fadeCheckbox.addEventListener('change', (e) => {
+  config.fade = e.target.checked;
+  renderCanvas();
+});
+
+bgColor1.addEventListener('input', (e) => { config.bgC1 = e.target.value; renderCanvas(); });
+bgColor2.addEventListener('input', (e) => { config.bgC2 = e.target.value; renderCanvas(); });
+
 
 // Configuração da IA
 const aiConfig = {
@@ -169,7 +303,7 @@ const aiConfig = {
     const percent = Math.round((current / total) * 100);
     progressFill.style.width = percent + '%';
     progressTitle.innerText = `Baixando Motor de IA (${percent}%)`;
-    progressDesc.innerText = "Isso acontece apenas na primeira vez que você acessa o site.";
+    progressDesc.innerText = "Isso acontece apenas na primeira vez.";
   }
 };
 
@@ -178,45 +312,102 @@ function switchView(view) {
   viewUpload.classList.add('hidden');
   viewLoading.classList.add('hidden');
   viewResult.classList.add('hidden');
-  downloadBtn.style.display = 'none';
-  newImgBtn.style.display = 'none';
+  editorControls.classList.add('hidden');
+  initialPlaceholder.classList.remove('hidden');
 
   if (view === 'upload') viewUpload.classList.remove('hidden');
   else if (view === 'loading') viewLoading.classList.remove('hidden');
   else if (view === 'result') {
     viewResult.classList.remove('hidden');
-    downloadBtn.style.display = 'inline-flex';
-    newImgBtn.style.display = 'inline-flex';
+    editorControls.classList.remove('hidden');
+    initialPlaceholder.classList.add('hidden');
   }
 }
 
-// Aplicação do Gradiente / Esfumaçado via Canvas
-async function applyBottomFade(imageBlob) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
+// Algoritmo Matemático de Nitidez (Unsharp Mask via Convolução)
+function applySharpen(ctx, w, h, amount) {
+  if (amount <= 0) return;
+  const imageData = ctx.getImageData(0, 0, w, h);
+  const data = imageData.data;
+  const copy = new Uint8ClampedArray(data);
+  const w4 = w * 4;
+  
+  // Matriz de Convolução 3x3
+  const a = amount;
+  const center = 1 + 4 * a;
+  const edge = -a;
 
-      ctx.drawImage(img, 0, 0);
-      ctx.globalCompositeOperation = 'destination-in';
-      
-      const gradient = ctx.createLinearGradient(0, img.height, 0, img.height * 0.7);
-      gradient.addColorStop(0, 'rgba(0,0,0,0)');
-      gradient.addColorStop(1, 'rgba(0,0,0,1)');
+  for (let y = 1; y < h - 1; y++) {
+    for (let x = 1; x < w - 1; x++) {
+      const i = (y * w + x) * 4;
+      // Pula pixels muito transparentes para não criar halos escuros nas bordas do recorte
+      if (data[i + 3] < 10) continue; 
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, img.width, img.height);
-      
-      canvas.toBlob((blob) => resolve(blob), 'image/png');
-    };
-    img.src = URL.createObjectURL(imageBlob);
-  });
+      for (let c = 0; c < 3; c++) {
+        const val =
+          copy[i - w4 + c] * edge + // Top
+          copy[i - 4 + c] * edge +  // Left
+          copy[i + c] * center +    // Center
+          copy[i + 4 + c] * edge +  // Right
+          copy[i + w4 + c] * edge;  // Bottom
+        data[i + c] = val;
+      }
+    }
+  }
+  ctx.putImageData(imageData, 0, 0);
 }
 
-// Processamento da Imagem
+// MOTOR DE RENDERIZAÇÃO INSTANTÂNEO (Fundo + IA + Fade + Upscale)
+function renderCanvas() {
+  if (!rawCutoutImage.src) return;
+
+  const canvas = document.createElement('canvas');
+  // Aplica o Upscaling na criação do Canvas
+  canvas.width = rawCutoutImage.width * config.upscale;
+  canvas.height = rawCutoutImage.height * config.upscale;
+  const ctx = canvas.getContext('2d');
+  
+  // Melhora a qualidade do redimensionamento (Upscaling Nativo)
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  // 1. Desenhar Fundo
+  if (config.bgType === 'solid') {
+    ctx.fillStyle = config.bgC1;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else if (config.bgType === 'grad') {
+    const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    grad.addColorStop(0, config.bgC1);
+    grad.addColorStop(1, config.bgC2);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // 2. Desenhar Recorte da IA
+  ctx.drawImage(rawCutoutImage, 0, 0, canvas.width, canvas.height);
+
+  // NOVO: Aplicar Algoritmo de Nitidez
+  if (config.sharpness > 0) {
+    applySharpen(ctx, canvas.width, canvas.height, config.sharpness);
+  }
+
+  // 3. Aplicar Fade (Esfumaçado)
+  if (config.fade) {
+    ctx.globalCompositeOperation = 'destination-in';
+    const gradient = ctx.createLinearGradient(0, canvas.height, 0, canvas.height * 0.7);
+    gradient.addColorStop(0, 'rgba(0,0,0,0)');
+    gradient.addColorStop(1, 'rgba(0,0,0,1)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = 'source-over'; // Reseta
+  }
+
+  // Atualizar a imagem na tela e gerar o arquivo de download
+  finalDataUrl = canvas.toDataURL('image/png', 1.0);
+  resultImage.src = finalDataUrl;
+}
+
+// Processamento Inicial da IA
 async function handleFile(file) {
   if (!file || !file.type.startsWith('image/')) {
     alert("Por favor, envie um arquivo de imagem válido (JPG, PNG).");
@@ -229,7 +420,6 @@ async function handleFile(file) {
   progressDesc.innerText = 'Aguarde um momento.';
 
   if (originalObjectURL) URL.revokeObjectURL(originalObjectURL);
-  if (resultObjectURL) URL.revokeObjectURL(resultObjectURL);
 
   originalObjectURL = URL.createObjectURL(file);
   originalImage.src = originalObjectURL;
@@ -245,20 +435,17 @@ async function handleFile(file) {
     progressDesc.innerText = 'Separando o fundo da imagem principal.';
     progressFill.style.width = '100%';
 
-    let imageBlob = await window.imglyRemoveBackground(file, aiConfig);
+    // Roda a IA UMA ÚNICA VEZ
+    const imageBlob = await window.imglyRemoveBackground(file, aiConfig);
+    
+    // Salva o recorte puro na memória
+    rawCutoutImage.onload = () => {
+      renderCanvas(); // Renderiza com as configurações atuais
+      switchView('result');
+      activateTab('result');
+    };
+    rawCutoutImage.src = URL.createObjectURL(imageBlob);
 
-    if (fadeCheckbox.checked) {
-      progressTitle.innerText = 'Aplicando Máscara...';
-      progressDesc.innerText = 'Adicionando efeito esfumaçado na base.';
-      imageBlob = await applyBottomFade(imageBlob);
-    }
-
-    finalBlob = imageBlob;
-    resultObjectURL = URL.createObjectURL(imageBlob);
-    resultImage.src = resultObjectURL;
-
-    switchView('result');
-    activateTab('result');
   } catch (error) {
     console.error("Erro na IA:", error);
     alert("Não foi possível remover o fundo. Verifique sua conexão ou tente outra imagem.");
@@ -283,7 +470,6 @@ dropzone.addEventListener('drop', (e) => {
   }
 });
 
-// Input Tradicional
 fileInput.addEventListener('change', (e) => {
   if (e.target.files && e.target.files.length > 0) {
     handleFile(e.target.files[0]);
@@ -312,13 +498,11 @@ resultTabs.addEventListener('click', (e) => {
 
 // Botões Finais
 downloadBtn.addEventListener('click', () => {
-  if (!finalBlob) return;
-  const url = URL.createObjectURL(finalBlob);
+  if (!finalDataUrl) return;
   const a = document.createElement('a');
-  a.href = url;
-  a.download = `RF-BgRemove-${Date.now()}.png`;
+  a.href = finalDataUrl;
+  a.download = `RF-BgRemove-${config.upscale}x-${Date.now()}.png`;
   a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 
 newImgBtn.addEventListener('click', () => {
