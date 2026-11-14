@@ -130,8 +130,43 @@ input[type=color] { width: 100%; height: 34px; border: 1px solid var(--bd); bord
 <!-- GAVETA LATERAL / INFERIOR DE CONTROLES -->
 <div id="panel">
   
+  <div id="panelGrip" class="hidden" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px; cursor:pointer; padding-bottom: 12px; border-bottom: 1px solid var(--bd);">
+    <span style="font-weight:600; color:var(--ac-light); font-size:13px;">Ferramentas de Edição</span>
+    <span id="gripIcon" style="color:var(--mu); font-size:12px; font-weight:600;">▼ Ocultar</span>
+  </div>
+
   <div id="editorControls" class="hidden" style="display:flex; flex-direction:column; gap:12px;">
     
+    <!-- CONTROLES DE LAYOUT -->
+    <div class="c">
+      <div class="l">Formato (Layout da Imagem)</div>
+      <div class="seg" id="layoutSeg">
+        <button data-v="orig" class="on">Livre</button>
+        <button data-v="1:1">1:1 (Post)</button>
+        <button data-v="3:4">3:4 (Feed)</button>
+        <button data-v="9:16">9:16 (Story)</button>
+      </div>
+    </div>
+
+    <!-- AJUSTE DA PESSOA -->
+    <div class="c">
+      <div class="l">Ajuste da Pessoa (Tamanho e Posição)</div>
+      <div class="g2" style="margin-top: 4px;">
+        <div>
+          <div class="l" style="margin-bottom:6px">Tamanho <span id="scaleVal">100%</span></div>
+          <input type="range" id="scaleRange" min="50" max="300" value="100" style="width: 100%; accent-color: var(--ac);">
+        </div>
+        <div>
+          <div class="l" style="margin-bottom:6px">Vertical (Y) <span id="posYVal">0%</span></div>
+          <input type="range" id="posYRange" min="-100" max="100" value="0" style="width: 100%; accent-color: var(--ac);">
+        </div>
+      </div>
+      <div style="margin-top: 8px;">
+        <div class="l" style="margin-bottom:6px">Horizontal (X) <span id="posXVal">0%</span></div>
+        <input type="range" id="posXRange" min="-100" max="100" value="0" style="width: 100%; accent-color: var(--ac);">
+      </div>
+    </div>
+
     <!-- CONTROLES DE FUNDO -->
     <div class="c">
       <div class="l">Fundo da Imagem</div>
@@ -179,7 +214,7 @@ input[type=color] { width: 100%; height: 34px; border: 1px solid var(--bd); bord
       </div>
     </div>
 
-    <!-- NOVO: CONTROLES DE NITIDEZ -->
+    <!-- CONTROLES DE NITIDEZ -->
     <div class="c">
       <div class="l">Nitidez (Realce de Detalhes)</div>
       <div class="seg" id="sharpnessSeg">
@@ -230,6 +265,8 @@ const progressDesc = document.getElementById('progressDesc');
 const resultTabs = document.getElementById('resultTabs');
 
 const editorControls = document.getElementById('editorControls');
+const panelGrip = document.getElementById('panelGrip');
+const gripIcon = document.getElementById('gripIcon');
 const initialPlaceholder = document.getElementById('initialPlaceholder');
 const fadeCheckbox = document.getElementById('fadeCheckbox');
 const fadeControlsBox = document.getElementById('fadeControlsBox');
@@ -240,6 +277,15 @@ const fadeIntensityVal = document.getElementById('fadeIntensityVal');
 const downloadBtn = document.getElementById('downloadBtn');
 const newImgBtn = document.getElementById('newImgBtn');
 const sharpnessSeg = document.getElementById('sharpnessSeg');
+
+// Controles de Layout e Ajuste
+const layoutSeg = document.getElementById('layoutSeg');
+const scaleRange = document.getElementById('scaleRange');
+const posYRange = document.getElementById('posYRange');
+const posXRange = document.getElementById('posXRange');
+const scaleVal = document.getElementById('scaleVal');
+const posYVal = document.getElementById('posYVal');
+const posXVal = document.getElementById('posXVal');
 
 // Controles de Fundo
 const bgTypeSeg = document.getElementById('bgTypeSeg');
@@ -266,7 +312,11 @@ let config = {
   fadeHeight: 30,
   fadeIntensity: 100,
   upscale: 1,
-  sharpness: 0
+  sharpness: 0,
+  layout: 'orig',
+  scale: 100,
+  posX: 0,
+  posY: 0
 };
 
 // Renderizar Swatches
@@ -305,6 +355,24 @@ setupSegControl(bgTypeSeg, 'bgType', () => {
 
 setupSegControl(upscaleSeg, 'upscale');
 setupSegControl(sharpnessSeg, 'sharpness');
+setupSegControl(layoutSeg, 'layout');
+
+// Ocultar/Mostrar Painel de Ferramentas
+panelGrip.addEventListener('click', () => {
+  const isHidden = editorControls.classList.contains('hidden');
+  if (isHidden) {
+    editorControls.classList.remove('hidden');
+    gripIcon.innerText = '▼ Ocultar';
+  } else {
+    editorControls.classList.add('hidden');
+    gripIcon.innerText = '▲ Mostrar';
+  }
+});
+
+// Ajustes da Pessoa
+scaleRange.addEventListener('input', (e) => { config.scale = e.target.value; scaleVal.innerText = config.scale + '%'; renderCanvas(); });
+posYRange.addEventListener('input', (e) => { config.posY = e.target.value; posYVal.innerText = config.posY + '%'; renderCanvas(); });
+posXRange.addEventListener('input', (e) => { config.posX = e.target.value; posXVal.innerText = config.posX + '%'; renderCanvas(); });
 
 fadeCheckbox.addEventListener('change', (e) => {
   config.fade = e.target.checked;
@@ -349,6 +417,7 @@ function switchView(view) {
   viewLoading.classList.add('hidden');
   viewResult.classList.add('hidden');
   editorControls.classList.add('hidden');
+  panelGrip.classList.add('hidden');
   initialPlaceholder.classList.remove('hidden');
 
   if (view === 'upload') viewUpload.classList.remove('hidden');
@@ -356,6 +425,8 @@ function switchView(view) {
   else if (view === 'result') {
     viewResult.classList.remove('hidden');
     editorControls.classList.remove('hidden');
+    panelGrip.classList.remove('hidden');
+    gripIcon.innerText = '▼ Ocultar';
     initialPlaceholder.classList.add('hidden');
   }
 }
@@ -393,14 +464,29 @@ function applySharpen(ctx, w, h, amount) {
   ctx.putImageData(imageData, 0, 0);
 }
 
-// MOTOR DE RENDERIZAÇÃO INSTANTÂNEO (Fundo + IA + Fade + Upscale)
+// MOTOR DE RENDERIZAÇÃO INSTANTÂNEO (Fundo + IA + Fade + Upscale + Layout + Ajuste)
 function renderCanvas() {
   if (!rawCutoutImage.src) return;
 
+  // Define as dimensões baseadas no Layout escolhido
+  let baseW = rawCutoutImage.width;
+  let baseH = rawCutoutImage.height;
+
+  if (config.layout === '1:1') {
+    baseW = Math.max(rawCutoutImage.width, rawCutoutImage.height);
+    baseH = baseW;
+  } else if (config.layout === '3:4') {
+    baseW = rawCutoutImage.width;
+    baseH = Math.round(baseW * (4/3));
+  } else if (config.layout === '9:16') {
+    baseW = rawCutoutImage.width;
+    baseH = Math.round(baseW * (16/9));
+  }
+
   const canvas = document.createElement('canvas');
   // Aplica o Upscaling na criação do Canvas
-  canvas.width = rawCutoutImage.width * config.upscale;
-  canvas.height = rawCutoutImage.height * config.upscale;
+  canvas.width = baseW * config.upscale;
+  canvas.height = baseH * config.upscale;
   const ctx = canvas.getContext('2d');
   
   // Melhora a qualidade do redimensionamento (Upscaling Nativo)
@@ -419,10 +505,27 @@ function renderCanvas() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  // 2. Desenhar Recorte da IA
-  ctx.drawImage(rawCutoutImage, 0, 0, canvas.width, canvas.height);
+  // 2. Desenhar Recorte da IA com Ajustes (Escala e Posição)
+  ctx.save();
+  // Move para o centro do canvas para escalonar/rotacionar pelo meio
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  
+  // Aplica o deslocamento X e Y baseados na porcentagem do tamanho do canvas
+  const offsetX = (config.posX / 100) * (canvas.width / 2);
+  const offsetY = (config.posY / 100) * (canvas.height / 2);
+  ctx.translate(offsetX, offsetY);
 
-  // NOVO: Aplicar Algoritmo de Nitidez
+  // Aplica a escala
+  const scaleMult = config.scale / 100;
+  ctx.scale(scaleMult, scaleMult);
+
+  // Desenha a imagem centralizada no novo eixo
+  const imgDrawW = rawCutoutImage.width * config.upscale;
+  const imgDrawH = rawCutoutImage.height * config.upscale;
+  ctx.drawImage(rawCutoutImage, -imgDrawW / 2, -imgDrawH / 2, imgDrawW, imgDrawH);
+  ctx.restore();
+
+  // Aplicar Algoritmo de Nitidez
   if (config.sharpness > 0) {
     applySharpen(ctx, canvas.width, canvas.height, config.sharpness);
   }
@@ -536,13 +639,37 @@ resultTabs.addEventListener('click', (e) => {
   if (btn) activateTab(btn.dataset.tab);
 });
 
-// Botões Finais
+// Botões Finais (Atualizado para Contornar Bloqueio de SandBox/Canvas)
 downloadBtn.addEventListener('click', () => {
   if (!finalDataUrl) return;
-  const a = document.createElement('a');
-  a.href = finalDataUrl;
-  a.download = `RF-BgRemove-${config.upscale}x-${Date.now()}.png`;
-  a.click();
+
+  const btnText = downloadBtn.innerHTML;
+  downloadBtn.innerHTML = "Preparando...";
+  
+  // Converte a string Base64 (finalDataUrl) para Blob para driblar bloqueios de iframes e downloads pesados
+  fetch(finalDataUrl)
+    .then(res => res.blob())
+    .then(blob => {
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = blobUrl;
+      a.download = `RF-BgRemove-${config.upscale}x-${Date.now()}.png`;
+      
+      // Anexa na tela fisicamente antes de forçar o clique
+      document.body.appendChild(a);
+      a.click();
+      
+      // Limpeza imediata da memória
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+      downloadBtn.innerHTML = btnText;
+    })
+    .catch(err => {
+      console.error("Erro no download: ", err);
+      alert("Houve um problema ao processar o arquivo. Tente novamente.");
+      downloadBtn.innerHTML = btnText;
+    });
 });
 
 newImgBtn.addEventListener('click', () => {
